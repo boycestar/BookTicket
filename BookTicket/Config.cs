@@ -16,6 +16,13 @@ namespace BookTicket
 {
     public class Config
     {
+        private int _eachBuyMax = -1;
+        private int _eachBuyMin = -1;
+        private int _seatCount = -1;
+        private int _stationCount = -1;
+        private int _userBuyCount = -1;
+        private int _userCount = -1;
+
         public Config()
         {
             AppSettings = new AppSettings();
@@ -24,51 +31,87 @@ namespace BookTicket
         private AppSettings AppSettings { get; set; }
 
         /// <summary>
-        /// 站点数量
+        ///     站点数量
         /// </summary>
         public int StationCount
         {
-            get { return Util.ConvertStringToInt(AppSettings.GetString("StationCount"), 10); }
+            get
+            {
+                _stationCount = _stationCount == -1
+                    ? Util.ConvertStringToInt(AppSettings.GetString("StationCount"), 10)
+                    : _stationCount;
+                return _stationCount;
+            }
         }
 
         /// <summary>
-        /// 座位数量
+        ///     座位数量
         /// </summary>
         public int SeatCount
         {
-            get { return Util.ConvertStringToInt(AppSettings.GetString("SeatCount"), 10); }
+            get
+            {
+                _seatCount = _seatCount == -1
+                    ? Util.ConvertStringToInt(AppSettings.GetString("SeatCount"), 10)
+                    : _seatCount;
+                return _seatCount;
+            }
         }
 
         /// <summary>
-        /// 购票人数
+        ///     购票人数
         /// </summary>
         public int UserCount
         {
-            get { return Util.ConvertStringToInt(AppSettings.GetString("UserCount"), 10); }
+            get
+            {
+                _userCount = _userCount == -1
+                    ? Util.ConvertStringToInt(AppSettings.GetString("UserCount"), 10)
+                    : _userCount;
+                return _userCount;
+            }
         }
 
         /// <summary>
-        /// 每人可购买次数
+        ///     每人可购买次数
         /// </summary>
         public int UserBuyCount
         {
-            get { return Util.ConvertStringToInt(AppSettings.GetString("UserBuyCount"), 10); }
+            get
+            {
+                _userBuyCount = _userBuyCount == -1
+                    ? Util.ConvertStringToInt(AppSettings.GetString("UserBuyCount"), 10)
+                    : _userBuyCount;
+                return _userBuyCount;
+            }
         }
 
         /// <summary>
-        /// 每人每次最少可购票量
+        ///     每人每次最少可购票量
         /// </summary>
         public int EachBuyMin
         {
-            get { return Util.ConvertStringToInt(AppSettings.GetString("EachBuyMin"), 10); }
+            get
+            {
+                _eachBuyMin = _eachBuyMin == -1
+                    ? Util.ConvertStringToInt(AppSettings.GetString("EachBuyMin"), 10)
+                    : _eachBuyMin;
+                return _eachBuyMin;
+            }
         }
 
         /// <summary>
-        /// 每人每次最多可购票量
+        ///     每人每次最多可购票量
         /// </summary>
         public int EachBuyMax
         {
-            get { return Util.ConvertStringToInt(AppSettings.GetString("EachBuyMax"), 10); }
+            get
+            {
+                _eachBuyMax = _eachBuyMax == -1
+                    ? Util.ConvertStringToInt(AppSettings.GetString("EachBuyMax"), 10)
+                    : _eachBuyMax;
+                return _eachBuyMax;
+            }
         }
     }
 }

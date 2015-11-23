@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using log4net;
+using ServiceStack.Messaging;
 
 namespace BookTicket
 {
@@ -42,30 +43,28 @@ namespace BookTicket
 
                 count--;
 
+                var message = string.Format("用户[{0}],第[{1}]次，购买[{2}]张,从[{3}]->到[{4}]的车票", userName,
+                    Config.UserBuyCount - count, buyTicketCount,
+                    originationName, destinationName);
+
                 try
                 {
                     var queryTicket = QueryTicket(originationName, destinationName);
                     if (queryTicket <= buyTicketCount)
                     {
-                        Console.WriteLine("用户[{0}],购买[{1}]张,从[{2}]->到[{3}]的车票时,因余票不足，无法购买", userName, buyTicketCount,
-                            originationName, destinationName);
-                        Log.WarnFormat("用户[{0}],购买[{1}]张,从[{2}]->到[{3}]的车票时,因余票不足，无法购买", userName, buyTicketCount,
-                            originationName, destinationName);
+                        Console.WriteLine("{0}时,因余票不足，无法购买", message);
+                        Log.WarnFormat("{0}时,因余票不足，无法购买", message);
                     }
                     if (BuyTickets(originationName, destinationName, buyTicketCount))
                     {
-                        Console.WriteLine("用户[{0}],购买[{1}]张,从[{2}]->到[{3}]的车票！", userName, buyTicketCount,
-                            originationName, destinationName);
-                        Log.InfoFormat("用户[{0}],购买[{1}]张,从[{2}]->到[{3}]的车票！", userName, buyTicketCount,
-                            originationName, destinationName);
+                        Console.WriteLine("{0}！", message);
+                        Log.InfoFormat("{0}！", message);
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("用户[{0}],购买[{1}]张,从[{2}]->到[{3}]的车票时发生异常，具体信息如下：{4}", userName, buyTicketCount,
-                        originationName, destinationName, ex.Message);
-                    Log.ErrorFormat("用户[{0}],购买[{1}]张,从[{2}]->到[{3}]的车票时发生异常，具体信息如下：{4}", userName, buyTicketCount,
-                        originationName, destinationName, ex.Message);
+                    Console.WriteLine("{0}时发生异常，具体信息如下：{1}",message, ex.Message);
+                    Log.ErrorFormat("{0}时发生异常，具体信息如下：{1}", message, ex.Message);
                     Log.Error(ex.Message, ex);
                 }
             }
